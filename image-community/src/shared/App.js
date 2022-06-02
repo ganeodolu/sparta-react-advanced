@@ -8,7 +8,7 @@ function App() {
 		<React.Fragment>
 			<BrowserRouter>
 				<Routes>
-					<Route path="/" element={PostList} />
+					<Route path="/" element={<PostList />} />
 				</Routes>
 			</BrowserRouter>
 		</React.Fragment>
