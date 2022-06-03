@@ -1,6 +1,5 @@
 import React from 'react'
-import Grid from "../elements/Grid";
-import Image from "../elements/Image";
+import { Grid, Image, Text } from '../elements';
 
 const Post = (props) => {
   return (
@@ -8,20 +7,18 @@ const Post = (props) => {
 			<Grid>
 				<Grid is_flex>
 					<Image shape="circle" src={props.src}></Image>
+					<Text bold>{props.user_info.user_name}</Text>
+					<Text>{props.insert_dt}</Text>
 				</Grid>
 				<Grid padding="16px">
-
+					<Text>{props.contents}</Text>
 				</Grid>
 				<Grid>
 					<Image shape="rectangle" src={props.src} />
 				</Grid>
 				<Grid padding="16px">
-
+					<Text>댓글 {props.comment_cnt}개</Text>
 				</Grid>
-				<div>user profile/ user name / insert_dt</div>
-				<div>contents</div>
-				<div>image</div>
-				<div>comment cnt</div>
 			</Grid>
 		</div>
 	);
