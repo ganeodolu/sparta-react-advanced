@@ -3,10 +3,10 @@ import styled from "styled-components";
 
 const Text = (props) => {
   const { bold, color, size, children } = props;
-  console.log(children)
   const styles = {
     bold, color, size
   }
+  
   return (
     <P {...styles}>
       {children}
