@@ -3,6 +3,8 @@ import { Grid, Button } from '../elements';
 
 const Header = () => {
 
+
+  // Button onClick 실행함수를 Header에 직접 넣는 방법은??
   return (
 		<Grid is_flex padding="8px">
 			<Button address="">홈</Button>
