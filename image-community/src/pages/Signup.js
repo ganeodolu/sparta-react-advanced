@@ -18,7 +18,7 @@ const Signup = (props) => {
 				비밀번호 확인
 			</Input>
 			<div />
-			<Button type="submit" disabled={true} width="80vw" type="submit">
+			<Button type="submit" disabled={true} width="80vw">
 				회원가입하기
 			</Button>
 		</form>
