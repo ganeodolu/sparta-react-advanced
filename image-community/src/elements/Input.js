@@ -2,7 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Input = (props) => {
-	const { type, width, marginBottom, children, placeholderText } = props;
+	const {
+		name,
+		onChange,
+		value,
+		minLength,
+		type,
+		width,
+		marginBottom,
+		children,
+		placeholderText,
+	} = props;
 	const outerStyles = { marginBottom };
 	const innerStyles = { width };
 
@@ -12,7 +22,11 @@ const Input = (props) => {
 			<div />
 			<InputInner
 				{...innerStyles}
+				name={name}
+				onChange={onChange && ((e) => onChange(e))}
+				value={value}
 				type={type}
+				minlength={minLength}
 				placeholder={placeholderText + " 입력하세요"}
 			></InputInner>
 		</InputOuter>
@@ -21,8 +35,9 @@ const Input = (props) => {
 
 Input.defaultProps = {
 	width: "80vw",
-  marginBottom: "20px",
-  type: 'text',
+	marginBottom: "20px",
+	type: "text",
+	minLength: "4",
 };
 
 const InputOuter = styled.div`
