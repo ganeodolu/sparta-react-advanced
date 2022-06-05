@@ -2,11 +2,11 @@ import React from 'react'
 import styled from "styled-components";
 
 const Button = (props) => {
-  const { onClickButton, width, height, backgroundColor, border, disabled, children } = props; 
+  const { type, onClickButton, width, height, backgroundColor, border, disabled, children } = props; 
   const styles = { width, height, backgroundColor, border }
 
   return (
-    <ButtonBox {...styles} disabled={disabled? true : null} type="button" onClick={() => onClickButton()}>
+    <ButtonBox type={type} {...styles} disabled={disabled? true : null} onClick={() => onClickButton()}>
 			{children}
 		</ButtonBox>
 	);
@@ -18,6 +18,7 @@ Button.defaultProps = {
   backgroundColor: "#C4C4C4",
   border: 0,
   disabled: false,
+  type: "button",
 };
 
 const ButtonBox = styled.button`
