@@ -2,17 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Input = (props) => {
-	const { width, marginBottom, children, placeholderText } = props;
-	const styles = { marginBottom };
+	const { type, width, marginBottom, children, placeholderText } = props;
+	const outerStyles = { marginBottom };
 	const innerStyles = { width };
 
 	return (
-		<InputOuter {...styles}>
+		<InputOuter {...outerStyles}>
 			<label>{children}</label>
 			<div />
 			<InputInner
 				{...innerStyles}
-				type="text"
+				type={type}
 				placeholder={placeholderText + " 입력하세요"}
 			></InputInner>
 		</InputOuter>
@@ -21,7 +21,8 @@ const Input = (props) => {
 
 Input.defaultProps = {
 	width: "80vw",
-	marginBottom: "20px",
+  marginBottom: "20px",
+  type: 'text',
 };
 
 const InputOuter = styled.div`
