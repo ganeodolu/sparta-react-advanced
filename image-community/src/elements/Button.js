@@ -3,23 +3,25 @@ import styled from "styled-components";
 
 const Button = (props) => {
 	const {
-    type,
-    onClickButton,
+		type,
+		onClickButton,
 		width,
 		height,
 		backgroundColor,
 		border,
-		disabled,
+		// isValidPassword,
+		// disabled,
 		children,
 	} = props;
+	// console.log(disabled())
 	const styles = { width, height, backgroundColor, border };
 
 	return (
 		<ButtonBox
 			type={type}
 			{...styles}
-      disabled={disabled ? true : null}
-      onClick={onClickButton && ((e) => onClickButton(e))}
+			// disabled={() => disabled()}
+			onClick={onClickButton && ((e) => onClickButton(e))}
 		>
 			{children}
 		</ButtonBox>
@@ -33,6 +35,8 @@ Button.defaultProps = {
 	border: 0,
 	disabled: false,
 	type: "button",
+	onClickButton: null,
+	// isValidPassword: null,
 };
 
 const ButtonBox = styled.button`

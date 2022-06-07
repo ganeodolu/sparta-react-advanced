@@ -13,16 +13,24 @@ const Signup = (props) => {
 		});
 	};
 
-	const onClickButton = (e) => {
-		e.preventDefault();
+	const isValidPassword = () => {
 		if (state.password.length < 4) {
-			alert('비밀번호는 4자이상입니다')
-			return
+			alert("비밀번호는 4자이상입니다");
+			return false;
+		}
+		if (state.password !== state.passwordConfirm) {
+			alert("비밀번호가 다릅니다");
+			return false;
 		}
 
-		return state.password === state.passwordConfirm
-			? alert("가입성공")
-			: alert("비밀번호가 다릅니다");
+		return true;
+	};
+
+	const onClickButton = (e) => {
+		e.preventDefault();
+		if (isValidPassword()) {
+			alert("가입성공");
+		}
 	};
 
 	return (
@@ -55,6 +63,7 @@ const Signup = (props) => {
 			<Button
 				type="submit"
 				width="80vw"
+				// disabled={isValidPassword}
 				onClickButton={onClickButton}
 			>
 				회원가입하기
