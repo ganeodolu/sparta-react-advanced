@@ -16,8 +16,8 @@ const Login = (props) => {
 	const onClickButton = (userId, userPassword) => {
 		Cookie.set('userId', userId, 3)
 		Cookie.set('userPwd', userPassword, 3)
-		Cookie.get('userId')
-		Cookie.del('userPwd')
+		// Cookie.get('userId')
+		// Cookie.del('userPwd')
 	};
 
 	return (

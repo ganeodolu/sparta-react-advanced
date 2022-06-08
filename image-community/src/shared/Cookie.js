@@ -1,5 +1,3 @@
-import React from 'react'
-
 const makeExpiredDate = (day) => {  
   let date = new Date();
   date.setDate(date.getDate() + day);
