@@ -9,18 +9,17 @@ const Button = (props) => {
 		height,
 		backgroundColor,
 		border,
-		// isValidPassword,
-		// disabled,
+		disabled,
 		children,
 	} = props;
-	// console.log(disabled())
+	// console.log(isValidPassword)
 	const styles = { width, height, backgroundColor, border };
 
 	return (
 		<ButtonBox
 			type={type}
 			{...styles}
-			// disabled={() => disabled()}
+			disabled={disabled}
 			onClick={onClickButton && ((e) => onClickButton(e))}
 		>
 			{children}
@@ -36,7 +35,7 @@ Button.defaultProps = {
 	disabled: false,
 	type: "button",
 	onClickButton: null,
-	// isValidPassword: null,
+	isValidPassword: null,
 };
 
 const ButtonBox = styled.button`

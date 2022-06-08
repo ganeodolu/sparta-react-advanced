@@ -22,9 +22,10 @@ const Signup = (props) => {
 			alert("비밀번호가 다릅니다");
 			return false;
 		}
-
+		
 		return true;
 	};
+	const isValid = state.password < 4 || state.password !== state.passwordConfirm;
 
 	const onClickButton = (e) => {
 		e.preventDefault();
@@ -63,7 +64,7 @@ const Signup = (props) => {
 			<Button
 				type="submit"
 				width="80vw"
-				// disabled={isValidPassword}
+				disabled={isValid}
 				onClickButton={onClickButton}
 			>
 				회원가입하기
