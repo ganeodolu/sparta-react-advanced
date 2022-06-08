@@ -18,7 +18,7 @@ const Input = (props) => {
 
 	return (
 		<InputOuter {...outerStyles}>
-			<label>{children}</label>
+			<label htmlFor={name}>{children}</label>
 			<div />
 			<InputInner
 				{...innerStyles}
