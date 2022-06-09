@@ -10,14 +10,14 @@ const GET_USER = "GET_USER";
 // action creators
 const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const getUser = createAction(GET_USER, (user) => ({ uesr }));
+const getUser = createAction(GET_USER, (user) => ({ user }));
 
 const initialState = {
   user: null,
   isLogin: false,
 }
 // reducer immer 사용(proxy 관련??)
-const reducer = handleActions(
+export default handleActions(
 	{
     [LOG_IN]: (state, action) => produce(state, (draft) => {
       Cookie.set("isLogin", "success");
