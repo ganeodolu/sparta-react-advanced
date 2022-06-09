@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { Input, Button, Text } from "../elements";
-import Cookie from "../shared/Cookie";
+import { useDispatch } from "react-redux"; 
+import { actionCreators as userActions } from "../redux/modules/user";
+import { useNavigate } from "react-router-dom";
 
 const Login = (props) => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch(); 
 	const [state, setState] = useState({
 		id: "",
 		password: "",
@@ -13,11 +17,9 @@ const Login = (props) => {
 			[e.target.name]: e.target.value,
 		});
 	};
-	const onClickButton = (userId, userPassword) => {
-		Cookie.set('userId', userId, 3)
-		Cookie.set('userPwd', userPassword, 3)
-		// Cookie.get('userId')
-		// Cookie.del('userPwd')
+	const onClickButton = (key, value) => {
+		dispatch(userActions.logInAction({ userName: 'perl' }))
+		navigate('/');
 	};
 
 	return (
@@ -42,7 +44,7 @@ const Login = (props) => {
 				비밀번호
 			</Input>
 			<div />
-			<Button width="80vw" onClickButton={() => onClickButton(state.id, state.password)}>
+			<Button width="80vw" onClickButton={() => onClickButton()}>
 				로그인하기
 			</Button>
 		</div>

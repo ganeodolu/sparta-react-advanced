@@ -1,46 +1,36 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Grid, Button } from "../elements";
 import { useNavigate } from "react-router-dom";
-import Cookie from "./Cookie";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 
 const Header = () => {
-	const [isLogin, setIsLogin] = useState(false);
-	
+	const dispatch = useDispatch();
+	const isLogin = useSelector((state) => state.user.isLogIn);
 
 	const navigate = useNavigate();
 	const onClickButton = (str) => {
 		navigate(`/${str}`);
 	};
-	const onClickLogoutButton = (name) => Cookie.del(name);
-
-	useEffect(() => {
-		let cookie = Cookie.get("userId");
-		console.log(cookie)
-
-		if (cookie) {
-			setIsLogin(true)
-		} else {
-			setIsLogin(false)
-		}
-	})
+	const onClickLogoutButton = () => dispatch(userActions.logOut({}));
 
 	if (isLogin) {
-			return (
-				<>
-					<Grid is_flex padding="4px 16px">
-						<Grid>
-							<Button onClickButton={() => onClickButton("")}>홈</Button>
-						</Grid>
-						<Grid is_flex padding="4px 16px">
-							<Button onClickButton={() => onClickButton("")}>내 정보</Button>
-							<Button onClickButton={() => onClickButton("login")}>알림</Button>
-							<Button onClickButton={() => onClickLogoutButton("userId")}>
-								로그아웃
-							</Button>
-						</Grid>
+		return (
+			<>
+				<Grid is_flex padding="4px 16px">
+					<Grid>
+						<Button onClickButton={() => onClickButton("")}>홈</Button>
 					</Grid>
-				</>
-			);
+					<Grid is_flex padding="4px 16px">
+						<Button onClickButton={() => onClickButton("")}>내 정보</Button>
+						<Button onClickButton={() => onClickButton("login")}>알림</Button>
+						<Button onClickButton={() => onClickLogoutButton()}>
+							로그아웃
+						</Button>
+					</Grid>
+				</Grid>
+			</>
+		);
 	}
 
 	return (
