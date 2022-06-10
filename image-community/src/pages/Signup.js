@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Input, Button, Text } from "../elements";
+import { useDispatch } from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
+import { useNavigate } from "react-router-dom";
 
 const Signup = (props) => {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [state, setState] = useState({
+		id: "",
+		userName: "",
 		password: "",
 		passwordConfirm: "",
 	});
@@ -13,11 +20,19 @@ const Signup = (props) => {
 		});
 	};
 
-	const isValidPassword = () => {
-		if (state.password.length < 4) {
-			alert("비밀번호는 4자이상입니다");
-			return false;
+
+	const isValidInputs = () => {
+		if (state.id.length < 1) {
+			return false
 		}
+		if (state.userName.length < 1) {
+			return false
+		}
+		// firebase에서 체크 6자이상
+		// if (state.password.length < 4) {
+		// 	alert("비밀번호는 4자이상입니다");
+		// 	return false;
+		// }
 		if (state.password !== state.passwordConfirm) {
 			alert("비밀번호가 다릅니다");
 			return false;
@@ -29,17 +44,32 @@ const Signup = (props) => {
 
 	const onClickButton = (e) => {
 		e.preventDefault();
-		if (isValidPassword()) {
-			alert("가입성공");
+		if (isValidInputs) {
+			dispatch(userActions.signupFB(state.id, state.password, state.userName));
+			navigate("/");
 		}
 	};
 
 	return (
 		<form style={{ padding: "16px" }}>
 			<Text size="32px">회원가입</Text>
-			<Input placeholderText="아이디를">아이디</Input>
+			<Input
+				name="id"
+				value={state.id}
+				onChange={onChangeInput}
+				placeholderText="아이디를"
+			>
+				아이디
+			</Input>
 			<div />
-			<Input placeholderText="닉네임을">닉네임</Input>
+			<Input
+				name="userName"
+				value={state.userName}
+				onChange={onChangeInput}
+				placeholderText="닉네임을"
+			>
+				닉네임
+			</Input>
 			<div />
 			<Input
 				name="password"
