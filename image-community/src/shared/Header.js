@@ -3,7 +3,8 @@ import { Grid, Button } from "../elements";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { apiKey } from './firebase';
+import { apiKey } from "./firebase";
+import Permit from "./Permit";
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -15,7 +16,10 @@ const Header = () => {
 	const onClickButton = (str) => {
 		navigate(`/${str}`);
 	};
-	const onClickLogoutButton = () => dispatch(userActions.logOut({}));
+	const onClickLogoutButton = () => {
+		dispatch(userActions.logOutFB());
+		navigate("/", { replace: true });
+	};
 
 	if (isLogin && isSession) {
 		return (

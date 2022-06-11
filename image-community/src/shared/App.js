@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "./Header";
 import { actionCreators as userActions } from '../redux/modules/user';
 import { useDispatch } from "react-redux";
-import { apiKey } from '../shared/firebase';
+import { apiKey } from './firebase';
 
 function App() {
 	const dispatch = useDispatch();

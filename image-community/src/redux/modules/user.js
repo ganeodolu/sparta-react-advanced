@@ -105,6 +105,15 @@ const logInCheckFB = () => {
 	}
 }
 
+const logOutFB = () => {
+	return function (dispatch, getState, { history }) {
+		auth.signOut().then(() => {
+			dispatch(logOut());
+			// history.replace('/');
+		})
+	}
+}
+
 // reducer immer 사용(proxy 관련??)
 export default handleActions(
 	{
@@ -126,6 +135,6 @@ export default handleActions(
 );
 
 // action creator export
-const actionCreators = { logOut, getUser, logInFB, signUpFB, logInCheckFB };
+const actionCreators = { logOut, getUser, logInFB, signUpFB, logInCheckFB, logOutFB };
 
 export { actionCreators };
