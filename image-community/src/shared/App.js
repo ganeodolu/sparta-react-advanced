@@ -12,6 +12,8 @@ import Header from "./Header";
 import { actionCreators as userActions } from '../redux/modules/user';
 import { useDispatch } from "react-redux";
 import { apiKey } from './firebase';
+import Permit from "./Permit";
+import SvgImage from "../elements/SvgImage";
 
 function App() {
 	const dispatch = useDispatch();
@@ -33,6 +35,9 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 				</Routes>
+				<Permit>
+					<SvgImage />
+				</Permit>
 			</BrowserRouter>
 			{/* </ConnectedRouter> */}
 		</React.Fragment>
