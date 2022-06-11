@@ -12,7 +12,6 @@ const Button = (props) => {
 		disabled,
 		children,
 	} = props;
-	// console.log(isValidPassword)
 	const styles = { width, height, backgroundColor, border };
 
 	return (

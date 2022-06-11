@@ -45,7 +45,7 @@ const Signup = (props) => {
 	const onClickButton = (e) => {
 		e.preventDefault();
 		if (isValidInputs) {
-			dispatch(userActions.signupFB(state.id, state.password, state.userName));
+			dispatch(userActions.signUpFB(state.id, state.password, state.userName));
 			navigate("/");
 		}
 	};

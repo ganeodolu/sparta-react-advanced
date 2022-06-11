@@ -3,6 +3,7 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import Cookie from "../../shared/Cookie";
 
+import firebase from "firebase/compat/app";
 import { auth } from "../../shared/firebase";
 
 // actions
@@ -27,15 +28,33 @@ const userInitial = {
 };
 
 // middleware actions
-const logInAction = (user) => {
+const logInFB = (id, pwd) => {
 	return function (dispatch, getState, { history }) {
-		console.log(history);
-		dispatch(setUser(user));
-		// history.push('/'); navigate가 컴포넌트안에서만 사용가능하여 클릭함수에 넣어서 사용 중인데 문제없을지 의문
+		auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
+			auth
+				.signInWithEmailAndPassword(id, pwd)
+				.then((user) => {
+					console.log(user); // auth.currentUser
+
+					dispatch(
+						setUser({
+							id,
+							userName: user.user.displayName,
+							userProfile: "",
+							uid: user.user.uid,
+						})
+					);
+				})
+				.catch((error) => {
+					var errorCode = error.code;
+					var errorMessage = error.message;
+					console.log(errorCode, errorMessage);
+				});
+		});
 	};
 };
 
-const signupFB = (id, pwd, userName) => {
+const signUpFB = (id, pwd, userName) => {
 	return function (dispatch, setState, { history }) {
 		auth
 			.createUserWithEmailAndPassword(id, pwd)
@@ -46,21 +65,45 @@ const signupFB = (id, pwd, userName) => {
 						displayName: userName,
 					})
 					.then(() => {
-						dispatch(setUser({ id, userName, userProfile: "" }));
+						dispatch(setUser({
+							id,
+							userName,
+							userProfile: "",
+							uid: user.user.uid,
+						}));
 						// history.push('/');
 					})
 					.catch((error) => {
-						console.log(error)
+						console.log(error);
 					});
 			})
 			.catch((error) => {
 				var errorCode = error.code;
 				var errorMessage = error.message;
-				// ..
 				console.log(errorCode, errorMessage);
 			});
 	};
 };
+
+const logInCheckFB = () => {
+	return function (dispatch, getState, { history }) {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				console.log(user)
+				dispatch(
+					setUser({
+						id : user.email,
+						userName: user.displayName,
+						userProfile: "",
+						uid: user.uid,
+					})
+				);
+			} else {
+				dispatch(logOut());
+			}
+		})
+	}
+}
 
 // reducer immer 사용(proxy 관련??)
 export default handleActions(
@@ -83,6 +126,6 @@ export default handleActions(
 );
 
 // action creator export
-const actionCreators = { logOut, getUser, logInAction, signupFB };
+const actionCreators = { logOut, getUser, logInFB, signUpFB, logInCheckFB };
 
 export { actionCreators };

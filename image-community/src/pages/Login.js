@@ -17,9 +17,25 @@ const Login = (props) => {
 			[e.target.name]: e.target.value,
 		});
 	};
-	const onClickButton = (key, value) => {
-		dispatch(userActions.logInAction({ userName: 'perl' }))
-		navigate('/');
+
+	const isValidInputs = () => {
+		if (state.id.length < 1) {
+			alert("아이디가 없습니다");
+			return false;
+		}
+		if (state.password.length < 1) {
+			alert("비밀번호가 없습니다");
+			return false;
+		}
+
+		return true;
+	};
+	const onClickButton = (e) => {
+		e.preventDefault();
+		if (isValidInputs) {
+			dispatch(userActions.logInFB(state.id, state.password));
+			navigate("/");
+		}
 	};
 
 	return (
@@ -44,7 +60,7 @@ const Login = (props) => {
 				비밀번호
 			</Input>
 			<div />
-			<Button width="80vw" onClickButton={() => onClickButton()}>
+			<Button type="submit" width="80vw" onClickButton={(e) => onClickButton(e)}>
 				로그인하기
 			</Button>
 		</div>

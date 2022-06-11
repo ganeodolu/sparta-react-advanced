@@ -3,10 +3,13 @@ import { Grid, Button } from "../elements";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { apiKey } from './firebase';
 
 const Header = () => {
 	const dispatch = useDispatch();
 	const isLogin = useSelector((state) => state.user.isLogIn);
+	const _sessionKey = `firebase:authUser:${apiKey}:[DEFAULT]`;
+	const isSession = sessionStorage.getItem(_sessionKey) ? true : false;
 
 	const navigate = useNavigate();
 	const onClickButton = (str) => {
@@ -14,7 +17,7 @@ const Header = () => {
 	};
 	const onClickLogoutButton = () => dispatch(userActions.logOut({}));
 
-	if (isLogin) {
+	if (isLogin && isSession) {
 		return (
 			<>
 				<Grid is_flex padding="4px 16px">
