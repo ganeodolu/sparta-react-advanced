@@ -6,6 +6,7 @@ import PostList from "../pages/PostList";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import PostWrite from "../pages/PostWrite";
+import PostDetail from "../pages/PostDetail";
 // import { ConnectedRouter } from "connected-react-router";
 // import { history } from "../redux/configureStore";
 import { BrowserRouter } from "react-router-dom";
@@ -36,6 +37,7 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/signup" element={<Signup />} />
 					<Route path="/write" element={<PostWrite />} />
+					<Route path="/detail" element={<PostDetail />} />
 				</Routes>
 				<Permit>
 					<SvgImage />
