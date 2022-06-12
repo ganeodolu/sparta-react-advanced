@@ -20,7 +20,7 @@ const PostDetail = (props) => {
 					<Text>댓글 {props.comment_cnt}개</Text>
 				</Grid>
 				<Grid is_flex>
-					<TextArea cols="50" rows="3"></TextArea>
+					<TextArea cols="50" rows="3">댓글 내용을 입력해주세요</TextArea>
 					<Button>작성</Button>
 				</Grid>
 				<Reply></Reply>

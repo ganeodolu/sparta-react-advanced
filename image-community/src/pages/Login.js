@@ -3,6 +3,7 @@ import { Input, Button, Text } from "../elements";
 import { useDispatch } from "react-redux"; 
 import { actionCreators as userActions } from "../redux/modules/user";
 import { useNavigate } from "react-router-dom";
+import { validation } from "../utils/validation";
 
 const Login = (props) => {
 	const navigate = useNavigate();
@@ -19,12 +20,15 @@ const Login = (props) => {
 	};
 
 	const isValidInputs = () => {
-		if (state.id.length < 1) {
+		if (!validation.textLength(state.id, 1)) {
 			alert("아이디가 없습니다");
 			return false;
 		}
-		if (state.password.length < 1) {
+		if (!validation.textLength(state.password, 1)) {
 			alert("비밀번호가 없습니다");
+			return false;
+		}
+		if (!validation.email(state.id)) {
 			return false;
 		}
 

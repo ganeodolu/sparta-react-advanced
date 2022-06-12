@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 
 const TextArea = (props) => {
-  const { rows, cols, name, placeholder } = props;
+  const { rows, cols, name, placeholder, children } = props;
   const styles = { rows, cols };
   return (
     <TextAreaBox>
@@ -12,6 +12,7 @@ const TextArea = (props) => {
         name={name}
         placeholder={placeholder}
       >
+        {children}
       </textarea>
     </TextAreaBox>
   )
