@@ -1,39 +1,37 @@
-import React from 'react'
+import React, { useState } from "react";
 import { Input, Button, Image, Text, TextArea } from "../elements";
 
 const PostWrite = () => {
-  const readURL = (e) => {
-    console.log(e)
-    console.log(e.target)
-    const input = e.target
-    if (input && input.files && input.files[0]) {
-      let reader = new FileReader();
-      reader.onload = function (e) {
-        document.getElementById("preview").src = e.target.result;
-      };
-      reader.readAsDataURL(input.files[0]);
-    } else {
-      document.getElementById("preview").src =
-				"https://cdn-icons-png.flaticon.com/512/2456/2456987.png";
-    }
-  }
+  const [previewImage, setPreviewImage] = useState(
+		"https://cdn-icons-png.flaticon.com/512/2456/2456987.png"
+	);
+	const readURL = (e) => {
+		if (!e.target.files) return;
 
-  return (
+		const imgFile = e.target.files[0];
+		const reader = new FileReader();
+		reader.readAsDataURL(imgFile);
+		reader.onloadend = () => {
+			const imgBase64 = typeof reader.result === "string" ? reader.result : "";
+      setPreviewImage(imgBase64);
+		};
+	};
+
+	return (
 		<div>
 			<Text size="32px">게시글 작성</Text>
-			<input type="file" name="upload" onChange={(e) => readURL(e)}></input>
+			<Input type="file" name="upload" onChange={readURL}></Input>
 			<Text size="20px">미리보기</Text>
 			<Image
 				id="preview"
 				shape="rectangle"
-				// size="50"
-				src="https://cdn-icons-png.flaticon.com/512/2456/2456987.png"
+				src={previewImage}
 			/>
 			<Text size="20px">게시글 작성</Text>
-      <TextArea placeholder="게시글 내용"></TextArea>
-      <Button width="90vw">게시글 작성</Button>
+			<TextArea placeholder="게시글 내용"></TextArea>
+			<Button width="90vw">게시글 작성</Button>
 		</div>
 	);
-}
+};
 
-export default PostWrite
+export default PostWrite;
