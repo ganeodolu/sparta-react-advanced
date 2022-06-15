@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import Post from '../components/Post'
 import { actionCreators as postActions } from '../redux/modules/post';
+
 const PostList = (props) => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.list);

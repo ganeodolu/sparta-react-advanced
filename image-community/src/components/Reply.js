@@ -1,10 +1,10 @@
-import React from 'react'
-import { Grid, Image, Text, Button } from '../elements';
+import React from "react";
+import { Button, Grid, Image, Text } from "../elements";
 
 const Reply = (props) => {
-  return (
+	return (
 		<div>
-			<Grid is_flex>
+			<Grid isFlex>
 				<Image></Image>
 				<Text>nickname</Text>
 				<Text>고양이군요</Text>
@@ -12,6 +12,6 @@ const Reply = (props) => {
 			</Grid>
 		</div>
 	);
-}
+};
 
-export default Reply
+export default Reply;

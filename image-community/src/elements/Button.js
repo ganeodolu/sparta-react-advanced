@@ -15,19 +15,21 @@ const Button = (props) => {
 	const styles = { width, height, backgroundColor, border };
 
 	return (
-		<ButtonBox
-			type={type}
-			{...styles}
-			disabled={disabled}
-			onClick={onClickButton && ((e) => onClickButton(e))}
-		>
-			{children}
-		</ButtonBox>
+		<>
+			<ButtonBox
+				type={type}
+				{...styles}
+				disabled={disabled}
+				onClick={onClickButton && ((e) => onClickButton(e))}
+			>
+				{children}
+			</ButtonBox>
+		</>
 	);
 };
 
 Button.defaultProps = {
-	width: "80px",
+	width: "100%",
 	height: "40px",
 	backgroundColor: "#C4C4C4",
 	border: 0,

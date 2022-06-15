@@ -1,11 +1,12 @@
-import React from 'react'
+import React from "react";
+import Reply from "../components/Reply";
 import { Button, Grid, Image, Text, TextArea } from "../elements";
-import Reply  from '../components/Reply';
+
 const PostDetail = (props) => {
-  return (
+	return (
 		<div>
 			<Grid>
-				<Grid is_flex>
+				<Grid isFlex>
 					<Image shape="circle" src={props.src}></Image>
 					<Text bold>{props.user_info.user_name}</Text>
 					<Text>{props.insert_dt}</Text>
@@ -19,8 +20,10 @@ const PostDetail = (props) => {
 				<Grid padding="16px">
 					<Text>댓글 {props.comment_cnt}개</Text>
 				</Grid>
-				<Grid is_flex>
-					<TextArea cols="50" rows="3">댓글 내용을 입력해주세요</TextArea>
+				<Grid isFlex>
+					<TextArea cols="50" rows="3">
+						댓글 내용을 입력해주세요
+					</TextArea>
 					<Button>작성</Button>
 				</Grid>
 				<Reply></Reply>
@@ -29,7 +32,7 @@ const PostDetail = (props) => {
 			</Grid>
 		</div>
 	);
-}
+};
 
 PostDetail.defaultProps = {
 	user_info: {
@@ -44,4 +47,4 @@ PostDetail.defaultProps = {
 	insert_dt: "2022-06-02 18:00:00",
 };
 
-export default PostDetail
+export default PostDetail;
