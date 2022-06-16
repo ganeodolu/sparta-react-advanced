@@ -1,6 +1,6 @@
 import React from "react";
 import Reply from "../components/Reply";
-import { Button, Grid, Image, Text, TextArea } from "../elements";
+import { Button, Grid, Image, Text, Input } from "../elements";
 
 const PostDetail = (props) => {
 	return (
@@ -21,9 +21,15 @@ const PostDetail = (props) => {
 					<Text>댓글 {props.comment_cnt}개</Text>
 				</Grid>
 				<Grid isFlex>
-					<TextArea cols="50" rows="3">
+					{/* <TextArea cols="50" rows="3">
 						댓글 내용을 입력해주세요
-					</TextArea>
+					</TextArea> */}
+					<Input
+						// value={state.contents}
+						// onChange={onChangeInput}
+						multiline
+					>댓글 내용을 입력해주세요</Input>
+
 					<Button>작성</Button>
 				</Grid>
 				<Reply></Reply>

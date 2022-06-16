@@ -13,18 +13,24 @@ const initialState = {
 };
 
 const initialPost = {
-	id: 0,
-	userInfo: {
-		userName: "mean0",
-		userProfile:
-			"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
-	},
+	// id: 0,
+	// userInfo: {
+	// 	userName: "mean0",
+	// 	userProfile:
+	// 		"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
+	// },
 	imageUrl:
 		"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
-	contents: "괭이",
-	commentCnt: 10,
+	contents: "",
+	commentCnt: 0,
 	insertDt: "2022-06-02 18:00:00",
 };
+
+const addPostFB = (content = "") => {
+	return function (dispatch, getState, { history }) {
+		
+	}
+}
 
 const getPostFB = () => {
 	return function (dispatch, getState, { history }) {
