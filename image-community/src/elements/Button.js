@@ -20,7 +20,7 @@ const Button = (props) => {
 				type={type}
 				{...styles}
 				disabled={disabled}
-				onClick={onClickButton && ((e) => onClickButton(e))}
+				onClick={((e) => onClickButton(e))}
 			>
 				{children}
 			</ButtonBox>

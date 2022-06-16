@@ -1,6 +1,14 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { firestore } from "../../shared/firebase";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.tz.setDefault('Asia/Seoul');
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -23,12 +31,30 @@ const initialPost = {
 		"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
 	contents: "",
 	commentCnt: 0,
-	insertDt: "2022-06-02 18:00:00",
+	insertDt: dayjs().format("YYYY-MM-DD hh:mm:ss"),
 };
 
-const addPostFB = (content = "") => {
+const addPostFB = (contents = "") => {
 	return function (dispatch, getState, { history }) {
-		
+		const postDB = firestore.collection("post");
+		const user = getState().user.user;
+		const userInfo = {
+			userName: user.userName,
+			userId: user.uid,
+			userProfile: user.userProfile,
+		}
+		const post = {
+			...initialPost,
+			contents,
+			insertDt: dayjs().format("YYYY-MM-DD hh:mm:ss"),
+		};
+
+		postDB.add({ ...userInfo, ...post }).then((doc) => {
+			let newPost = { userInfo, ...post, id: doc.id };
+			dispatch(addPost(newPost));
+		}).catch((error) => {
+			console.log("post 작성에 실패했어요", error)
+		})
 	}
 }
 
@@ -68,11 +94,13 @@ export default handleActions(
 			produce(state, (draft) => {
 				draft.list = action.payload.postList;
 			}),
-		[ADD_POST]: (state, action) => produce(state, (draft) => {}),
+		[ADD_POST]: (state, action) => produce(state, (draft) => {
+			draft.list.unshift(action.payload.post);
+		}),
 	},
 	initialState
 );
 
-const actionCreators = { setPost, addPost, getPostFB };
+const actionCreators = { setPost, addPost, getPostFB, addPostFB };
 
 export { actionCreators };

@@ -9,7 +9,9 @@ const PostList = (props) => {
   console.log(postList);
 
   useEffect(() => {
-    dispatch(postActions.getPostFB())
+    if (postList.length === 0) {
+    dispatch(postActions.getPostFB());
+    }
   }, [])
 
   return (
