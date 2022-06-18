@@ -3,36 +3,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { Input, Button, Image, Text, TextArea, Grid } from "../elements";
 import { useNavigate } from "react-router-dom";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { actionCreators as imageActions } from "../redux/modules/image";
 import Upload from "../shared/Upload";
 
 const PostWrite = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isLogIn = useSelector(({ user }) => user.isLogIn);
+	const preview = useSelector(({ image }) => image.preview);
 	const [state, setState] = useState({
 		contents: "",
 	});
-	const [previewImage, setPreviewImage] = useState(
-		"https://cdn-icons-png.flaticon.com/512/2456/2456987.png"
-	);
 
 	const onChangeInput = (e) => {
 		setState({
 			...state,
 			[e.target.name]: e.target.value,
 		});
-	};
-
-	const readURL = (e) => {
-		if (!e.target.files) return;
-
-		const imgFile = e.target.files[0];
-		const reader = new FileReader();
-		reader.readAsDataURL(imgFile);
-		reader.onloadend = () => {
-			const imgBase64 = typeof reader.result === "string" ? reader.result : "";
-			setPreviewImage(imgBase64);
-		};
 	};
 
 	const onClickButton = () => {
@@ -61,15 +48,34 @@ const PostWrite = () => {
 
 	return (
 		<Grid>
-			<Text size="32px">게시글 작성</Text>
-			{/* <Input type="file" name="upload" onChange={readURL}></Input>
-			<Text size="20px">미리보기</Text>
-			<Image id="preview" shape="rectangle" src={previewImage} /> */}
-			<Upload></Upload>
-			<Text size="20px">게시글 작성</Text>
-			<Input value={state.contents} onChange={onChangeInput} multiline></Input>
-			{/* <TextArea placeholder="게시글 내용"></TextArea> */}
-			<Button onClickButton={onClickButton}>게시글 작성</Button>
+			<Grid padding="16px">
+				<Text size="36px" margin="0px">
+					게시글 작성
+				</Text>
+				<Upload></Upload>
+			</Grid>
+			<Grid>
+				<Grid>
+					<Text margin="0px" size="24px">
+						미리보기
+					</Text>
+				</Grid>
+				<Image
+					shape="rectangle"
+					src={
+						preview ?? "https://cdn-icons-png.flaticon.com/512/2456/2456987.png"
+					}
+				/>
+			</Grid>
+			<Grid padding="16px">
+				<Text size="20px">게시글 작성</Text>
+				<Input
+					value={state.contents}
+					onChange={onChangeInput}
+					multiline
+				></Input>
+				<Button onClickButton={onClickButton}>게시글 작성</Button>
+			</Grid>
 		</Grid>
 	);
 };

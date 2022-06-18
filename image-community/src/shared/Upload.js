@@ -9,6 +9,13 @@ const Upload = () => {
   const isUploading = useSelector(state => state.image.uploading);
   const fileInput = useRef();
   const selectFile = (e) => {
+    const reader = new FileReader();
+    const file = fileInput.current.files[0];
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      dispatch(imageActions.setPreview(reader.result));
+    }
+
   }
   const uploadFB = () => {
     let image = fileInput.current.files[0];
