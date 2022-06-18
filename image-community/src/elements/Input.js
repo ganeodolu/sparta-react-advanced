@@ -23,6 +23,7 @@ const Input = (props) => {
 			<Grid>
 				<Text>{children}</Text>
 				<ElTextarea
+					name={name}
 					rows={8}
 					placeholder={placeholderText}
 					onChange={onChange}
@@ -38,7 +39,7 @@ const Input = (props) => {
 			<InputInner
 				{...innerStyles}
 				name={name}
-				onChange={onChange && ((e) => onChange(e))}
+				onChange={((e) => onChange(e))}
 				value={value}
 				type={type}
 				minlength={minLength}
