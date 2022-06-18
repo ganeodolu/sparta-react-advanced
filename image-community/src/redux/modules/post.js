@@ -1,14 +1,16 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore } from "../../shared/firebase";
+import { firestore, storage } from "../../shared/firebase";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-
+import { actionCreators as imageActions } from "./image";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
+dayjs.tz.setDefault("Asia/Seoul");
+
+
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
@@ -42,21 +44,45 @@ const addPostFB = (contents = "") => {
 			userName: user.userName,
 			userId: user.uid,
 			userProfile: user.userProfile,
-		}
+		};
 		const post = {
 			...initialPost,
 			contents,
 			insertDt: dayjs().format("YYYY-MM-DD hh:mm:ss"),
 		};
-
-		postDB.add({ ...userInfo, ...post }).then((doc) => {
-			let newPost = { userInfo, ...post, id: doc.id };
-			dispatch(addPost(newPost));
-		}).catch((error) => {
-			console.log("post 작성에 실패했어요", error)
-		})
-	}
-}
+		const image = getState().image.preview;
+		const upload = storage
+			.ref(`images/${userInfo.userId}_${new Date().getTime()}`)
+			.putString(image, "data_url");
+		upload
+			.then((snapshot) => {
+				snapshot.ref
+					.getDownloadURL()
+					.then((url) => {
+						dispatch(imageActions.uploadImage(url));
+						return url;
+					})
+					.then((url) => {
+						postDB
+							.add({ ...userInfo, ...post, imageUrl: url })
+							.then((doc) => {
+								let newPost = { userInfo, ...post, id: doc.id, imageUrl: url };
+								dispatch(addPost(newPost));
+								dispatch(imageActions.setPreview(null)); // 업로드 후 미리보기 초기화
+							})
+							.catch((error) => {
+								alert("post 작성 실패");
+								console.log("post 작성에 실패했어요", error);
+							});
+					})
+					.catch((error) => {
+						alert("이미지 업로드 실패");
+						console.log("이미지 업로드에 실패했습니다", error); // 실제 서비스에서는 도움되는 동작을 추가
+					});
+			})
+			
+	};
+};
 
 const getPostFB = () => {
 	return function (dispatch, getState, { history }) {
@@ -94,9 +120,10 @@ export default handleActions(
 			produce(state, (draft) => {
 				draft.list = action.payload.postList;
 			}),
-		[ADD_POST]: (state, action) => produce(state, (draft) => {
-			draft.list.unshift(action.payload.post);
-		}),
+		[ADD_POST]: (state, action) =>
+			produce(state, (draft) => {
+				draft.list.unshift(action.payload.post);
+			}),
 	},
 	initialState
 );

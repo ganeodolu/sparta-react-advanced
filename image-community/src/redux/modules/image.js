@@ -46,6 +46,6 @@ export default handleActions({
 	})
 }, initialState);
 
-const actionCreators = { uploadImageFB, setPreview };
+const actionCreators = { uploadImageFB, setPreview, uploadImage };
 
 export { actionCreators };

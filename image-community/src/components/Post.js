@@ -14,7 +14,7 @@ const Post = (props) => {
 					<Text>{props.contents}</Text>
 				</Grid>
 				<Grid>
-					<Image shape="rectangle" src={props.src} />
+					<Image shape="rectangle" src={props.imageUrl} />
 				</Grid>
 				<Grid padding="16px">
 					<Text>댓글 {props.commentCnt}개</Text>

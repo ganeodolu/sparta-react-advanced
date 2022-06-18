@@ -8,7 +8,7 @@ const Upload = () => {
   const dispatch = useDispatch();
   const isUploading = useSelector(state => state.image.uploading);
   const fileInput = useRef();
-  const selectFile = (e) => {
+  const selectFile = () => {
     const reader = new FileReader();
     const file = fileInput.current.files[0];
     reader.readAsDataURL(file);

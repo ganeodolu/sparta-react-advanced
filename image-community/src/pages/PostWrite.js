@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Input, Button, Image, Text, TextArea, Grid } from "../elements";
+import { Input, Button, Image, Text, Grid } from "../elements";
 import { useNavigate } from "react-router-dom";
 import { actionCreators as postActions } from "../redux/modules/post";
-import { actionCreators as imageActions } from "../redux/modules/image";
 import Upload from "../shared/Upload";
 
 const PostWrite = () => {
@@ -70,6 +69,7 @@ const PostWrite = () => {
 			<Grid padding="16px">
 				<Text size="20px">게시글 작성</Text>
 				<Input
+					name="contents"
 					value={state.contents}
 					onChange={onChangeInput}
 					multiline
