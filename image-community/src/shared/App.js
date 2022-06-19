@@ -7,6 +7,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import PostWrite from "../pages/PostWrite";
 import PostDetail from "../pages/PostDetail";
+import Notification from "../pages/Notification";
 import Search from "./Search";
 // import { ConnectedRouter } from "connected-react-router";
 // import { history } from "../redux/configureStore";
@@ -33,18 +34,19 @@ function App() {
 		<React.Fragment>
 			{/* <ConnectedRouter history={history}> */}
 			{/* <BrowserRouter> */}
-				<Header></Header>
-				<Routes>
-					<Route path="/" element={<PostList />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/signup" element={<Signup />} />
-					<Route path="/write" element={<PostWrite />} />
+			<Header></Header>
+			<Routes>
+				<Route path="/" element={<PostList />} />
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
+				<Route path="/write" element={<PostWrite />} />
+				<Route path="/notification" element={<Notification />} />
 				<Route path="/detail" element={<PostDetail />} />
 				<Route path="/search" element={<Search />} />
-				</Routes>
-				<Permit>
-					<SvgImage onClickButton={() => navigate("/write")}/>
-				</Permit>
+			</Routes>
+			<Permit>
+				<SvgImage onClickButton={() => navigate("/write")} />
+			</Permit>
 			{/* </BrowserRouter> */}
 			{/* </ConnectedRouter> */}
 		</React.Fragment>

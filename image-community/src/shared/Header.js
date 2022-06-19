@@ -29,7 +29,7 @@ const Header = () => {
 					</Grid>
 					<Grid isFlex padding="4px 16px">
 						<Button onClickButton={() => onClickButton("")}>내 정보</Button>
-						<Button onClickButton={() => onClickButton("login")}>알림</Button>
+						<Button onClickButton={() => onClickButton("notification")}>알림</Button>
 						<Button onClickButton={() => onClickLogoutButton()}>
 							로그아웃
 						</Button>
