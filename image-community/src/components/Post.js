@@ -1,7 +1,9 @@
 import React from "react";
-import { Grid, Image, Text } from "../elements";
+import { Grid, Image, Text, Button } from "../elements";
 
 const Post = (props) => {
+	const { uid } = props;
+
 	return (
 		<div>
 			<Grid>
@@ -9,6 +11,7 @@ const Post = (props) => {
 					<Image shape="circle" src={props.src}></Image>
 					<Text bold>{props.userInfo.userName}</Text>
 					<Text>{props.insertDt}</Text>
+					{uid === props.userInfo.userId && <Button width="15%">수정</Button>}
 				</Grid>
 				<Grid padding="16px">
 					<Text>{props.contents}</Text>
