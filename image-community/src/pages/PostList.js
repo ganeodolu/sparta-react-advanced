@@ -6,8 +6,7 @@ import { actionCreators as postActions } from '../redux/modules/post';
 const PostList = (props) => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.list);
-  const uid = useSelector((state) => state.user.user.uid);
-  console.log(postList);
+  const uid = useSelector((state) => state?.user?.user?.uid);
 
   useEffect(() => {
     if (postList.length === 0) {
@@ -17,9 +16,9 @@ const PostList = (props) => {
 
   return (
     <React.Fragment>
-      {postList.map((post, idx) => {
+      {postList.map((post) => {
         const { id } = post;
-        return <Post key={id} uid={uid} {...post} />
+        return <Post key={id} uid={uid} {...post} />;
       })}
     </React.Fragment>
   )

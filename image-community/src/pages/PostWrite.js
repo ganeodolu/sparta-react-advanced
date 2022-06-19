@@ -4,14 +4,20 @@ import { Input, Button, Image, Text, Grid } from "../elements";
 import { useNavigate } from "react-router-dom";
 import { actionCreators as postActions } from "../redux/modules/post";
 import Upload from "../shared/Upload";
+import { useParams } from "react-router-dom";
 
 const PostWrite = () => {
+	const { postId } = useParams();
+	console.log(postId)
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isLogIn = useSelector(({ user }) => user.isLogIn);
 	const preview = useSelector(({ image }) => image.preview);
+	const postList = useSelector(({ post }) => post.list);
+	const post = postList.filter((postItem) => postItem.id === postId)[0];
+
 	const [state, setState] = useState({
-		contents: "",
+		contents: post?.contents ? post.contents : "",
 	});
 
 	const onChangeInput = (e) => {
@@ -41,6 +47,39 @@ const PostWrite = () => {
 				>
 					로그인페이지 가기
 				</Button>
+			</Grid>
+		);
+	}
+
+	if (postId) {
+		const { imageUrl } = post;
+
+		return (
+			<Grid>
+				<Grid padding="16px">
+					<Text size="36px" margin="0px">
+						게시글 작성
+					</Text>
+					<Upload></Upload>
+				</Grid>
+				<Grid>
+					<Grid>
+						<Text margin="0px" size="24px">
+							미리보기
+						</Text>
+					</Grid>
+					<Image shape="rectangle" src={preview ?? imageUrl} />
+				</Grid>
+				<Grid padding="16px">
+					<Text size="20px">게시글 작성</Text>
+					<Input
+						name="contents"
+						value={state.contents}
+						onChange={onChangeInput}
+						multiline
+					></Input>
+					<Button onClickButton={onClickButton}>게시글 작성</Button>
+				</Grid>
 			</Grid>
 		);
 	}

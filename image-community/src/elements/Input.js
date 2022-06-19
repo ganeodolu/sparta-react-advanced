@@ -25,11 +25,12 @@ const Input = (props) => {
 				<ElTextarea
 					name={name}
 					rows={8}
+					value={value}
 					placeholder={placeholderText}
 					onChange={onChange}
 				></ElTextarea>
 			</Grid>
-		)
+		);
 	}
 
 	return (
