@@ -1,26 +1,41 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Grid, Image, Text, Button } from "../elements";
 
 const Post = (props) => {
-	const { uid } = props;
+	const {
+		id,
+		src,
+		insertDt,
+		contents,
+		imageUrl,
+		uid,
+		userInfo,
+		commentCnt,
+	} = props;
+	const navigate = useNavigate();
+
+	const onClickButton = () => {
+		navigate(`/write/${id}`);
+	}
 
 	return (
 		<div>
 			<Grid>
 				<Grid isFlex>
-					<Image shape="circle" src={props.src}></Image>
-					<Text bold>{props.userInfo.userName}</Text>
-					<Text>{props.insertDt}</Text>
-					{uid === props.userInfo.userId && <Button width="15%">수정</Button>}
+					<Image shape="circle" src={src}></Image>
+					<Text bold>{userInfo.userName}</Text>
+					<Text>{insertDt}</Text>
+					{uid === userInfo.userId && <Button width="15%" onClickButton={onClickButton}>수정</Button>}
 				</Grid>
 				<Grid padding="16px">
-					<Text>{props.contents}</Text>
+					<Text>{contents}</Text>
 				</Grid>
 				<Grid>
-					<Image shape="rectangle" src={props.imageUrl} />
+					<Image shape="rectangle" src={imageUrl} />
 				</Grid>
 				<Grid padding="16px">
-					<Text>댓글 {props.commentCnt}개</Text>
+					<Text>댓글 {commentCnt}개</Text>
 				</Grid>
 			</Grid>
 		</div>

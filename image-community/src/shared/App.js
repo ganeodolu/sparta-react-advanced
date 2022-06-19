@@ -40,6 +40,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/write" element={<PostWrite />} />
+				<Route path="/write/:postId" element={<PostWrite />} />
 				<Route path="/notification" element={<Notification />} />
 				<Route path="/detail" element={<PostDetail />} />
 				<Route path="/search" element={<Search />} />
