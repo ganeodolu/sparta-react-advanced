@@ -27,8 +27,13 @@ const PostWrite = () => {
 		});
 	};
 
-	const onClickButton = () => {
+	const onClickButtonAdd = () => {
 		dispatch(postActions.addPostFB(state.contents));
+		navigate("/", { replace: true });
+	};
+
+	const onClickButtonUpdate = () => {
+		dispatch(postActions.updatePostFB(postId, state.contents));
 		navigate("/", { replace: true });
 	};
 
@@ -52,7 +57,6 @@ const PostWrite = () => {
 	}
 
 	if (postId) {
-		const { imageUrl } = post;
 
 		return (
 			<Grid>
@@ -68,7 +72,7 @@ const PostWrite = () => {
 							미리보기
 						</Text>
 					</Grid>
-					<Image shape="rectangle" src={preview ?? imageUrl} />
+					<Image shape="rectangle" src={preview ?? post?.imageUrl} />
 				</Grid>
 				<Grid padding="16px">
 					<Text size="20px">게시글 작성</Text>
@@ -78,7 +82,7 @@ const PostWrite = () => {
 						onChange={onChangeInput}
 						multiline
 					></Input>
-					<Button onClickButton={onClickButton}>게시글 작성</Button>
+					<Button onClickButton={onClickButtonUpdate}>게시글 작성</Button>
 				</Grid>
 			</Grid>
 		);
@@ -113,7 +117,7 @@ const PostWrite = () => {
 					onChange={onChangeInput}
 					multiline
 				></Input>
-				<Button onClickButton={onClickButton}>게시글 작성</Button>
+				<Button onClickButton={onClickButtonAdd}>게시글 작성</Button>
 			</Grid>
 		</Grid>
 	);

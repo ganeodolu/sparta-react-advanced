@@ -14,9 +14,11 @@ dayjs.tz.setDefault("Asia/Seoul");
 
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
+const UPDATE_POST = "UPDATE_POST";
 
 const setPost = createAction(SET_POST, (postList) => ({ postList }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const updatePost = createAction(UPDATE_POST, (post) => ({ post }));
 
 const initialState = {
 	list: [], // 집합이 post 이므로 굳이 postList 쓰지 않음
@@ -84,6 +86,53 @@ const addPostFB = (contents = "") => {
 	};
 };
 
+const updatePostFB = (postId, contents = "") => {
+	return function (dispatch, getState, { history }) {
+		const postDB = firestore.collection("post").doc(postId);
+		const user = getState().user.user;
+		const userInfo = {
+			userName: user.userName,
+			userId: user.uid,
+			userProfile: user.userProfile,
+		};
+		const post = {
+			...initialPost,
+			contents,
+			insertDt: dayjs().format("YYYY-MM-DD hh:mm:ss"),
+		};
+		const image = getState().image.preview;
+		const upload = storage
+			.ref(`images/${userInfo.userId}_${new Date().getTime()}`)
+			.putString(image, "data_url");
+		upload
+			.then((snapshot) => {
+				snapshot.ref
+					.getDownloadURL()
+					.then((url) => {
+						dispatch(imageActions.uploadImage(url));
+						return url;
+					})
+					.then((url) => {
+						return postDB
+							.update({ ...post, imageUrl: url })
+							.then((doc) => {
+								let newPost = { userInfo, ...post, id: doc.id, imageUrl: url };
+								dispatch(updatePost(newPost));
+								dispatch(imageActions.setPreview(null)); // 업로드 후 미리보기 초기화
+							})
+							.catch((error) => {
+								alert("post 수정 실패");
+								console.log("post 수정에 실패했어요", error);
+							});
+					})
+					.catch((error) => {
+						alert("이미지 업로드 실패");
+						console.log("이미지 업로드에 실패했습니다", error); // 실제 서비스에서는 도움되는 동작을 추가
+					});
+			})
+	};
+};
+
 const getPostFB = () => {
 	return function (dispatch, getState, { history }) {
 		const postDB = firestore.collection("post");
@@ -124,10 +173,15 @@ export default handleActions(
 			produce(state, (draft) => {
 				draft.list.unshift(action.payload.post);
 			}),
+		[UPDATE_POST]: (state, action) => {
+			produce(state, (draft) => {
+				draft.list = action.payload.postList;
+			})
+		}
 	},
 	initialState
 );
 
-const actionCreators = { setPost, addPost, getPostFB, addPostFB };
+const actionCreators = { setPost, addPost, getPostFB, addPostFB, updatePostFB };
 
 export { actionCreators };
