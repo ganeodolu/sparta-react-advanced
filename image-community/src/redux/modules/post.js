@@ -15,13 +15,18 @@ dayjs.tz.setDefault("Asia/Seoul");
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
 const UPDATE_POST = "UPDATE_POST";
+const LOADING = "LOADING";
 
-const setPost = createAction(SET_POST, (postList) => ({ postList }));
+const setPost = createAction(SET_POST, (postList, paging) => ({ postList, paging }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const updatePost = createAction(UPDATE_POST, (post) => ({ post }));
+const loading = createAction(LOADING, (isLoading) => ({isLoading}));
+
 
 const initialState = {
 	list: [], // 집합이 post 이므로 굳이 postList 쓰지 않음
+	paging: { start: null, next: null, size: 3 },
+	isLoading: false,
 };
 
 const initialPost = {
@@ -133,34 +138,51 @@ const updatePostFB = (postId, contents = "") => {
 	};
 };
 
-const getPostFB = () => {
+const getPostFB = (start = null, size = 3) => {
 	return function (dispatch, getState, { history }) {
+
+		let _paging = getState().post.paging;
+		if (_paging.start && !_paging.next) {
+			return;
+		}
+		// dispatch(loading(true));
 		const postDB = firestore.collection("post");
+		let query = postDB.orderBy("insertDt", "desc");
+		if (start) {
+			query = query.startAt(start);
+		}
 
-		let query = postDB.orderBy("insertDt", "desc").limit(2);
-		query.get().then(docs => {
-			const postList = [];
-			docs.forEach((doc) => {
-				const _post = doc.data();
-				const post = Object.keys(_post).reduce(
-					(acc, cur) => {
-						if (cur.indexOf("user") !== -1) {
-							return {
-								...acc,
-								userInfo: { ...acc.userInfo, [cur]: _post[cur] },
-							};
-						}
-						return { ...acc, [cur]: _post[cur] };
-					},
-					{ id: doc.id, userInfo: {} }
-				);
+		query
+			.limit(size + 1)
+			.get()
+			.then((docs) => {
+				const postList = [];
+				let paging = {
+					start: docs.docs[0],
+					next: docs.docs.length === size + 1 ? docs.docs[docs.docs.length - 1] : null,
+					size
+				}
+				docs.forEach((doc) => {
+					const _post = doc.data();
+					const post = Object.keys(_post).reduce(
+						(acc, cur) => {
+							if (cur.indexOf("user") !== -1) {
+								return {
+									...acc,
+									userInfo: { ...acc.userInfo, [cur]: _post[cur] },
+								};
+							}
+							return { ...acc, [cur]: _post[cur] };
+						},
+						{ id: doc.id, userInfo: {} }
+					);
 
-				console.log(post);
-				postList.push(post);
+					console.log(post);
+					postList.push(post);
+				});
+				postList.pop();
+				dispatch(setPost(postList, paging));
 			});
-			console.log(postList);
-			dispatch(setPost(postList));
-		})
 	};
 };
 
@@ -168,7 +190,9 @@ export default handleActions(
 	{
 		[SET_POST]: (state, action) =>
 			produce(state, (draft) => {
-				draft.list = action.payload.postList;
+				draft.list.push(...action.payload.postList);
+				draft.paging = action.payload.paging;
+				draft.isLoading = false;
 			}),
 		[ADD_POST]: (state, action) =>
 			produce(state, (draft) => {
@@ -178,6 +202,11 @@ export default handleActions(
 			produce(state, (draft) => {
 				draft.list = action.payload.postList;
 			})
+		},
+		[LOADING]: (state, action) => {
+			produce(state, (draft) => {
+				draft.isLoading = action.payload.isLoading;
+			}) 
 		}
 	},
 	initialState
