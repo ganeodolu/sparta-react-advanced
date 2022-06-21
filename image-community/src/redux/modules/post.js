@@ -137,7 +137,8 @@ const getPostFB = () => {
 	return function (dispatch, getState, { history }) {
 		const postDB = firestore.collection("post");
 
-		postDB.get().then((docs) => {
+		let query = postDB.orderBy("insertDt", "desc").limit(2);
+		query.get().then(docs => {
 			const postList = [];
 			docs.forEach((doc) => {
 				const _post = doc.data();
@@ -159,7 +160,7 @@ const getPostFB = () => {
 			});
 			console.log(postList);
 			dispatch(setPost(postList));
-		});
+		})
 	};
 };
 
