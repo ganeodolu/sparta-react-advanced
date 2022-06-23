@@ -40,7 +40,8 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/signup" element={<Signup />} />
 				<Route path="/post">
-					<Route path="/:postId" element={<PostDetail />} />
+					{/* <Route path="" element={<PostList />} /> */}
+					<Route path=":postId" element={<PostDetail />} />
 				</Route>
 				<Route path="/write">
 					<Route path="" element={<PostWrite />} />
