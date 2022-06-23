@@ -9,9 +9,9 @@ const Post = (props) => {
 		insertDt,
 		contents,
 		imageUrl,
-		uid,
 		userInfo,
 		commentCnt,
+		isMe,
 	} = props;
 	const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const Post = (props) => {
 					<Image shape="circle" src={src}></Image>
 					<Text bold>{userInfo.userName}</Text>
 					<Text>{insertDt}</Text>
-					{uid === userInfo.userId && <Button width="15%" onClickButton={onClickButton}>수정</Button>}
+					{isMe && <Button width="15%" onClickButton={onClickButton}>수정</Button>}
 				</Grid>
 				<Grid padding="16px">
 					<Text>{contents}</Text>
