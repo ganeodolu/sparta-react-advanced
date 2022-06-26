@@ -31,7 +31,10 @@ const initialState = {
 };
 
 const getCommentFB = (post_id) => {
-	return function (dispatch, getState, { history }) {};
+  return function (dispatch, getState, { history }) {
+    
+    
+  };
 };
 
 export default handleActions(

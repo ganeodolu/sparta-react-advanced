@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Reply from "../components/Reply";
 import { Button, Grid, Image, Text, Input } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Post from "../components/Post";
 import { actionCreators as postActions } from "../redux/modules/post";
+import CommentList from "../components/CommentList";
+import CommentWrite from "../components/CommentWrite";
 
 const PostDetail = (props) => {
 	const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const PostDetail = (props) => {
 			{post && ( // 새로고침시 오류 방지
 				<Post {...post} isMe={post.userInfo.userId === userInfo?.uid}></Post>
 			)}
+			<CommentWrite postId={postId} />
+			<CommentList postId={postId} />
 		</>
 	);
 };
