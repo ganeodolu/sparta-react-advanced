@@ -14,6 +14,8 @@ const Input = (props) => {
 		children,
 		multiline,
 		placeholderText,
+		onSubmit,
+		isSubmit,
 	} = props;
 	const outerStyles = { marginBottom };
 	const innerStyles = { width };
@@ -40,11 +42,16 @@ const Input = (props) => {
 			<InputInner
 				{...innerStyles}
 				name={name}
-				onChange={((e) => onChange(e))}
+				onChange={(e) => onChange(e)}
 				value={value}
 				type={type}
 				minlength={minLength}
 				placeholder={placeholderText + " 입력하세요"}
+				onKeyPress={(e) => {
+					if (e.key === "Enter") {
+						onSubmit(e);
+					}
+				}}
 			></InputInner>
 		</InputOuter>
 	);
@@ -56,7 +63,10 @@ Input.defaultProps = {
 	marginBottom: "20px",
 	type: "text",
 	minLength: "4",
-	onChange: () => {}
+	value: "",
+	onChange: () => {},
+	is_submit: false,
+	onSubmit: () => {},
 };
 
 const InputOuter = styled.div`

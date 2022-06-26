@@ -6,6 +6,7 @@ import Post from "../components/Post";
 import { actionCreators as postActions } from "../redux/modules/post";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
+import Permit from "../shared/Permit";
 
 const PostDetail = (props) => {
 	const dispatch = useDispatch();
@@ -30,7 +31,9 @@ const PostDetail = (props) => {
 			{post && ( // 새로고침시 오류 방지
 				<Post {...post} isMe={post.userInfo.userId === userInfo?.uid}></Post>
 			)}
-			<CommentWrite postId={postId} />
+			<Permit>
+				<CommentWrite postId={postId} />
+			</Permit>
 			<CommentList postId={postId} />
 		</>
 	);

@@ -1,46 +1,62 @@
-import React from "react";
-import {Grid, Image, Text} from "../elements";
+import React, { useEffect } from "react";
+import { Grid, Image, Text } from "../elements";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as commentActions } from "../redux/modules/comment";
 
-const CommentList = () => {
-  return (
-    <React.Fragment>
-      <Grid padding="16px">
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-        <CommentItem />
-      </Grid>
-    </React.Fragment>
-  );
+const CommentList = (props) => {
+  const dispatch = useDispatch();
+  const commentList = useSelector(state => state.comment.list);
+  const { postId } = props;
+
+  useEffect(() => {
+    if (!commentList[postId]) {
+      dispatch(commentActions.getCommentFB(postId));
+    }
+  }, [])
+
+  if (!commentList[postId] || !postId) {
+    return null
+  }
+		return (
+			<React.Fragment>
+				<Grid padding="16px">
+					{commentList[postId].map((comment) => {
+						return <CommentItem key={comment.id} {...comment} />;
+					})}
+				</Grid>
+			</React.Fragment>
+		);
 };
+
+CommentList.defaultProps = {
+  postId: null,
+}
 
 export default CommentList;
 
 
 const CommentItem = (props) => {
 
-    const {user_profile, user_name, user_id, post_id, contents, insert_dt} = props;
+    const {userProfile, userName, userId, postId, contents, insertDt} = props;
     return (
-        <Grid is_flex>
-            <Grid is_flex width="auto">
+        <Grid isFlex>
+            <Grid isFlex width="auto">
                 <Image shape="circle"/>
-                <Text bold>{user_name}</Text>
+                <Text bold>{userName}</Text>
             </Grid>
-            <Grid is_flex margin="0px 4px">
+            <Grid isFlex margin="0px 4px">
                 <Text margin="0px">{contents}</Text>
-                <Text margin="0px">{insert_dt}</Text>
+                <Text margin="0px">{insertDt}</Text>
             </Grid>
         </Grid>
     )
 }
 
 CommentItem.defaultProps = {
-    user_profile: "",
-    user_name: "mean0",
-    user_id: "",
-    post_id: 1,
+    userProfile: "",
+    userName: "mean0",
+    userId: "",
+    postId: 1,
     contents: "귀여운 고양이네요!",
-    insert_dt: '2021-01-01 19:00:00'
+    insertDt: '2021-01-01 19:00:00'
 }
