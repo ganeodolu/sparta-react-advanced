@@ -1,25 +1,31 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Post from "../components/Post";
+import { Grid } from "../elements";
 import { actionCreators as postActions } from "../redux/modules/post";
 import InfinityScroll from "../shared/InfinityScroll";
 
 const PostList = (props) => {
+  const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const uid = useSelector((state) => state?.user?.user?.uid);
 	const { list: postList, isLoading, paging } = useSelector(
 		(state) => state.post
 	);
-	console.log(paging);
+  const onClickHandler = (text) => {
+    navigate(`/post/${text}`)
+  }
 
 	useEffect(() => {
-		if (postList.length === 0) {
+		if (postList.length < 2) {
 			dispatch(postActions.getPostFB());
 		}
 	}, []);
 
 	return (
 		<React.Fragment>
+			<Grid bg={"#EFF6FF"} padding="5px 0px">
 			<InfinityScroll
 				callNext={() => {
 					dispatch(postActions.getPostFB(paging.next));
@@ -28,14 +34,34 @@ const PostList = (props) => {
 				loading={isLoading}
 			>
 				{postList.map((post) => {
-					const { id } = post;
+					const { id: postId } = post;
+
 					if (post.userInfo.userId === uid) {
-						return <Post key={id} {...post} isMe />;
+						return (
+							<Grid
+								margin="8px 0px"
+								bg={"#ffffff"}
+								key={postId}
+								_onClick={() => onClickHandler(postId)}
+							>
+								<Post {...post} isMe />
+							</Grid>
+						);
 					} else {
-						return <Post key={id} {...post} />;
+						return (
+							<Grid
+								margin="8px 0px"
+								bg={"#ffffff"}
+								key={postId}
+								_onClick={() => onClickHandler(postId)}
+							>
+								<Post {...post} />
+							</Grid>
+						);
 					}
 				})}
 			</InfinityScroll>
+			</Grid>
 		</React.Fragment>
 	);
 };

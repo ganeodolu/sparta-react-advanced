@@ -6,6 +6,7 @@ import { connectRouter } from "connected-react-router";
 import User from "./modules/user";
 import Post from "./modules/post";
 import Image from "./modules/image";
+import Comment from "./modules/comment";
 
 export const history = createBrowserHistory();
 
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
 	user: User,
 	post: Post,
 	image: Image,
-  router: connectRouter(history),
+	comment: Comment,
+	router: connectRouter(history),
 });
 
 const middlewares = [thunk.withExtraArgument({history:history})]; // thunk에 액션실행함수 후 리듀서 실행전 history 사용, react-router-dom v6 에서 안되는듯

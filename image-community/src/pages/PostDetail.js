@@ -1,42 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Reply from "../components/Reply";
 import { Button, Grid, Image, Text, Input } from "../elements";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Post from "../components/Post";
+import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostDetail = (props) => {
-	return (
-		<div>
-			<Grid>
-				<Grid isFlex>
-					<Image shape="circle" src={props.src}></Image>
-					<Text bold>{props.user_info.user_name}</Text>
-					<Text>{props.insert_dt}</Text>
-				</Grid>
-				<Grid padding="16px">
-					<Text>{props.contents}</Text>
-				</Grid>
-				<Grid>
-					<Image shape="rectangle" src={props.src} />
-				</Grid>
-				<Grid padding="16px">
-					<Text>댓글 {props.comment_cnt}개</Text>
-				</Grid>
-				<Grid isFlex>
-					{/* <TextArea cols="50" rows="3">
-						댓글 내용을 입력해주세요
-					</TextArea> */}
-					<Input
-						// value={state.contents}
-						// onChange={onChangeInput}
-						multiline
-					>댓글 내용을 입력해주세요</Input>
+	const dispatch = useDispatch();
+	const { postId } = useParams();
+	const userInfo = useSelector((state) => state.user.user);
+	const postList = useSelector((state) => state.post.list);
+	const postIdx = postList.findIndex(({ id }) => id === postId);
+	const post = postList[postIdx];
+	// const [post, setPost] = useState(postData ?? null);
 
-					<Button>작성</Button>
-				</Grid>
-				<Reply></Reply>
-				<Reply></Reply>
-				<Reply></Reply>
-			</Grid>
-		</div>
+	useEffect(() => {
+
+		if (post) {
+			return;
+		}
+		dispatch(postActions.getOnePostFB(postId))
+
+	}, [])
+
+	return (
+		<>
+			{post && ( // 새로고침시 오류 방지
+				<Post {...post} isMe={post.userInfo.userId === userInfo?.uid}></Post>
+			)}
+		</>
 	);
 };
 

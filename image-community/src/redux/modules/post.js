@@ -185,12 +185,52 @@ const getPostFB = (start = null, size = 3) => {
 	};
 };
 
+const getOnePostFB = (postId) => {
+	return function (dispatch, getState, { history }) {
+		const postDB = firestore.collection("post");
+		postDB
+			.doc(postId)
+			.get()
+			.then((doc) => {
+				const _post = doc.data();
+				if (!_post) {
+					return;
+				}
+				const post = Object.keys(_post).reduce(
+					(acc, cur) => {
+						if (cur.indexOf("user") !== -1) {
+							return {
+								...acc,
+								userInfo: { ...acc.userInfo, [cur]: _post[cur] },
+							};
+						}
+						return { ...acc, [cur]: _post[cur] };
+					},
+					{ id: doc.id, userInfo: {} }
+				);
+				dispatch(setPost([post]));
+			});
+	};
+};
+
 export default handleActions(
 	{
 		[SET_POST]: (state, action) =>
 			produce(state, (draft) => {
 				draft.list.push(...action.payload.postList);
-				draft.paging = action.payload.paging;
+				draft.list = draft.list.reduce((acc, cur) => {
+					if (acc.findIndex((a) => a.id === cur.id) === -1) {
+						// reduce 사용 중복제거
+						return [...acc, cur];
+					} else {
+						acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+						return acc;
+					}
+				}, []);
+
+				if (action.payload.paging) {
+					draft.paging = action.payload.paging;
+				}
 				draft.isLoading = false;
 			}),
 		[ADD_POST]: (state, action) =>
@@ -209,6 +249,13 @@ export default handleActions(
 	initialState
 );
 
-const actionCreators = { setPost, addPost, getPostFB, addPostFB, updatePostFB };
+const actionCreators = {
+	setPost,
+	addPost,
+	getPostFB,
+	addPostFB,
+	updatePostFB,
+	getOnePostFB,
+};
 
 export { actionCreators };

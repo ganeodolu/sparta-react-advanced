@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 
 const PostWrite = () => {
 	const { postId } = useParams();
-	console.log(postId)
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const isLogIn = useSelector(({ user }) => user.isLogIn);
