@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Image = (props) => {
-  const { shape, src, size } = props;
+  const { id, shape, src, size } = props;
 
   const styles = {
     src: src,
@@ -11,14 +11,14 @@ const Image = (props) => {
 
   if (shape === "circle") {
     return (
-      <ImageCircle {...styles}></ImageCircle>
+      <ImageCircle id={id} {...styles}></ImageCircle>
     )
   }
 
   if (shape === "rectangle") {
     return (
       <AspectOuter>
-        <AspectInner {...styles}></AspectInner>
+        <AspectInner id={id} {...styles}></AspectInner>
       </AspectOuter>
     )
   }
@@ -46,8 +46,9 @@ const AspectInner = styled.div`
   padding-top: 75%;
   overflow: hidden;
   background-image: url("${(props) => props.src}");
-  background-size: cover;
-` 
+  background-size: contain;
+  background-repeat: no-repeat;
+`; 
 
 const ImageCircle = styled.div`
   --size: ${(props) => props.size}px;

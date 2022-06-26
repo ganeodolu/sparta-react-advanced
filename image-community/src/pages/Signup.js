@@ -3,6 +3,7 @@ import { Input, Button, Text } from "../elements";
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { useNavigate } from "react-router-dom";
+import { validation } from "../utils/validation";
 
 const Signup = (props) => {
 	const navigate = useNavigate();
@@ -22,17 +23,17 @@ const Signup = (props) => {
 
 
 	const isValidInputs = () => {
-		if (state.id.length < 1) {
-			return false
+		if (!validation.textLength(state.id, 1)) {
+			alert("아이디가 없습니다");
+			return false;
 		}
-		if (state.userName.length < 1) {
-			return false
+		if (!validation.textLength(state.password, 1)) {
+			alert("비밀번호가 없습니다");
+			return false;
 		}
-		// firebase에서 체크 6자이상
-		// if (state.password.length < 4) {
-		// 	alert("비밀번호는 4자이상입니다");
-		// 	return false;
-		// }
+		if (!validation.email(state.id)) {
+			return false;
+		}
 		if (state.password !== state.passwordConfirm) {
 			alert("비밀번호가 다릅니다");
 			return false;
