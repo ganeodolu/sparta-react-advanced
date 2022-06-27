@@ -208,7 +208,7 @@ const getOnePostFB = (postId) => {
 					},
 					{ id: doc.id, userInfo: {} }
 				);
-				dispatch(setPost([post]));
+				dispatch(setPost([post])); // 한개의 post 넣어줌
 			});
 	};
 };

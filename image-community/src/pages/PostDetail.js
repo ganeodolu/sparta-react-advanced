@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Button, Grid, Image, Text, Input } from "../elements";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Post from "../components/Post";
@@ -15,15 +14,12 @@ const PostDetail = (props) => {
 	const postList = useSelector((state) => state.post.list);
 	const postIdx = postList.findIndex(({ id }) => id === postId);
 	const post = postList[postIdx];
-	// const [post, setPost] = useState(postData ?? null);
 
 	useEffect(() => {
-
 		if (post) {
 			return;
 		}
-		dispatch(postActions.getOnePostFB(postId))
-
+		dispatch(postActions.getOnePostFB(postId));
 	}, [])
 
 	return (
