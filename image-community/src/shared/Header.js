@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Grid } from "../elements";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { apiKey } from "./firebase";
+import NotiBadge from "../components/NotiBadge";
 
 const Header = () => {
 	const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Header = () => {
 					</Grid>
 					<Grid isFlex padding="4px 16px">
 						<Button onClickButton={() => onClickButton("")}>내 정보</Button>
-						<Button onClickButton={() => onClickButton("notification")}>알림</Button>
+						<NotiBadge onClickBadge={() => onClickButton("noti")}></NotiBadge>
 						<Button onClickButton={() => onClickLogoutButton()}>
 							로그아웃
 						</Button>

@@ -89,6 +89,8 @@ const addCommentFB = (postId, contents) => {
 							})
 						);
 						// 알림 리스트에 하나를 추가해줍니다!
+						// post가 있어야 해서 dispatch 이후에 추가 
+						// 댓글 단 userId와 로그인 id를 비교해서 다를 때만 read: false해주는 것이 정석(강의해서는 안함)
 						const _notiItem = realtime
 							.ref(`noti/${post.userInfo.userId}/list`)
 							.push();

@@ -239,7 +239,8 @@ export default handleActions(
 			}),
 		[UPDATE_POST]: (state, action) =>
 			produce(state, (draft) => {
-				draft.list = action.payload.postList;
+				let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+				draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
 			}),
 		[LOADING]: (state, action) =>
 			produce(state, (draft) => {

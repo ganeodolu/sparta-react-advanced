@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Input, Button, Text } from "../elements";
-import { useDispatch } from "react-redux"; 
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { useNavigate } from "react-router-dom";
 import { validation } from "../utils/validation";
 
 const Login = (props) => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch(); 
+	const dispatch = useDispatch();
 	const [state, setState] = useState({
 		id: "",
 		password: "",
-	})
+	});
 	const onChangeInput = (e) => {
 		setState({
 			...state,
@@ -42,6 +42,14 @@ const Login = (props) => {
 		}
 	};
 
+	const onSubmit = (e) => {
+		e.preventDefault();
+		if (isValidInputs) {
+			dispatch(userActions.logInFB(state.id, state.password));
+			navigate("/");
+		}
+	};
+
 	return (
 		<div style={{ padding: "16px" }}>
 			<Text size="32px">로그인</Text>
@@ -60,11 +68,16 @@ const Login = (props) => {
 				placeholderText="비밀번호를"
 				value={state.password}
 				onChange={onChangeInput}
+				onSubmit={onSubmit}
 			>
 				비밀번호
 			</Input>
 			<div />
-			<Button type="submit" width="80vw" onClickButton={(e) => onClickButton(e)}>
+			<Button
+				type="submit"
+				width="80vw"
+				onClickButton={(e) => onClickButton(e)}
+			>
 				로그인하기
 			</Button>
 		</div>

@@ -47,7 +47,7 @@ function App() {
 					<Route path="" element={<PostWrite />} />
 					<Route path=":postId" element={<PostWrite />} />
 				</Route>
-				<Route path="/notification" element={<Notification />} />
+				<Route path="/noti" element={<Notification />} />
 				<Route path="/search" element={<Search />} />
 			</Routes>
 			<Permit>
