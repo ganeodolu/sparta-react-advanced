@@ -15,7 +15,6 @@ const Input = (props) => {
 		multiline,
 		placeholderText,
 		onSubmit,
-		isSubmit,
 	} = props;
 	const outerStyles = { marginBottom };
 	const innerStyles = { width };

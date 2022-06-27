@@ -9,7 +9,7 @@ const CommentList = (props) => {
   const { postId } = props;
 
   useEffect(() => {
-    if (!commentList[postId]) {
+    if (!commentList[postId]) { // 리덕스에 해당댓글 없으면(새로고침 등) firebase에서 댓글 가져옴
       dispatch(commentActions.getCommentFB(postId));
     }
   }, [])

@@ -29,7 +29,6 @@ const CommentWrite = (props) => {
 					onChange={onChange}
 					value={commentText}
 					onSubmit={write}
-					isSubmit
 				/>
 				<Button width="50px" margin="0px 2px 0px 2px" onClickButton={write}>
 					작성

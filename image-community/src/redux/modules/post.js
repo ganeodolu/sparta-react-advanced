@@ -252,6 +252,7 @@ export default handleActions(
 const actionCreators = {
 	setPost,
 	addPost,
+	updatePost,
 	getPostFB,
 	addPostFB,
 	updatePostFB,
