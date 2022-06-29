@@ -1,14 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
+
 const One = (props) => {
   const navigate = useNavigate();
 
 	return (
 		<div>
+			<Helmet>
+				<title>page one</title>
+				<meta property="og:title" content="og page one" />
+				<meta property="og:description" content="who's there?" />
+				<meta property="og:image" content="%PUBLIC_URL%/logo192.png" />
+			</Helmet>
 			<h2>Hi, there :) ! page one</h2>
 			<button
-        onClick={() => {
-          
+				onClick={() => {
 					navigate("/");
 				}}
 			>
