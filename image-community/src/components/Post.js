@@ -1,8 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Image, Text, Button } from "../elements";
 
-const Post = (props) => {
+const Post = memo((props) => {
+	console.log('dd')
 	const {
 		id,
 		src,
@@ -40,7 +41,7 @@ const Post = (props) => {
 			</Grid>
 		</div>
 	);
-};
+});
 
 // 기본 props 지정해서 비어있을 때 오류 방지
 Post.defaultProps = {
