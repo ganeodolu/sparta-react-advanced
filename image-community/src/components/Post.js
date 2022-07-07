@@ -16,7 +16,8 @@ const Post = memo((props) => {
 	} = props;
 	const navigate = useNavigate();
 
-	const onClickButton = () => {
+	const onClickButton = (e) => {
+		e.stopPropagation();
 		navigate(`/write/${id}`);
 	}
 
@@ -27,7 +28,7 @@ const Post = memo((props) => {
 					<Image shape="circle" src={src}></Image>
 					<Text bold>{userInfo.userName}</Text>
 					<Text>{insertDt}</Text>
-					{isMe && <Button width="15%" onClickButton={onClickButton}>수정</Button>}
+					{isMe && <Button width="15%" onClickButton={e => onClickButton(e)}>수정</Button>}
 				</Grid>
 				<Grid padding="16px">
 					<Text>{contents}</Text>
