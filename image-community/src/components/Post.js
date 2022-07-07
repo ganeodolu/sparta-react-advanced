@@ -1,41 +1,61 @@
-import React from 'react'
-import { Grid, Image, Text } from '../elements';
+import React, { memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Grid, Image, Text, Button } from "../elements";
 
-const Post = (props) => {
-  return (
+const Post = memo((props) => {
+	console.log('dd')
+	const {
+		id,
+		src,
+		insertDt,
+		contents,
+		imageUrl,
+		userInfo,
+		commentCnt,
+		isMe,
+	} = props;
+	const navigate = useNavigate();
+
+	const onClickButton = (e) => {
+		e.stopPropagation();
+		navigate(`/write/${id}`);
+	}
+
+	return (
 		<div>
 			<Grid>
-				<Grid is_flex>
-					<Image shape="circle" src={props.src}></Image>
-					<Text bold>{props.user_info.user_name}</Text>
-					<Text>{props.insert_dt}</Text>
+				<Grid isFlex>
+					<Image shape="circle" src={src}></Image>
+					<Text bold>{userInfo.userName}</Text>
+					<Text>{insertDt}</Text>
+					{isMe && <Button width="15%" onClickButton={e => onClickButton(e)}>수정</Button>}
 				</Grid>
 				<Grid padding="16px">
-					<Text>{props.contents}</Text>
+					<Text>{contents}</Text>
 				</Grid>
 				<Grid>
-					<Image shape="rectangle" src={props.src} />
+					<Image shape="rectangle" src={imageUrl} />
 				</Grid>
 				<Grid padding="16px">
-					<Text>댓글 {props.comment_cnt}개</Text>
+					<Text>댓글 {commentCnt}개</Text>
 				</Grid>
 			</Grid>
 		</div>
 	);
-}
+});
 
 // 기본 props 지정해서 비어있을 때 오류 방지
 Post.defaultProps = {
-	user_info: {
-		user_name: "mean0",
-		user_profile:
+	userInfo: {
+		userName: "mean0",
+		userProfile:
 			"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
 	},
-	image_url:
-    "http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
-  contents: "괭이",
-  comment_cnt: 10,
-  insert_dt: "2022-06-02 18:00:00",
+	imageUrl:
+		"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
+	contents: "괭이",
+	commentCnt: 10,
+	insertDt: "2022-06-02 18:00:00",
 };
 
-export default Post
+export default Post;
