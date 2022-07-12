@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Image, Text, Button } from "../elements";
 
 const Post = memo((props) => {
-	console.log('dd')
 	const {
 		id,
 		src,

@@ -41,7 +41,8 @@ const GridBox = styled.div`
   ${(props) => props.margin? `margin: ${props.margin}` : ''};
   ${(props) => props.bg ? `background-color: ${props.bg}` : ''};
   ${(props) => props.isFlex ? `display: flex; align-items: center; justify-content: space-between;` : ''};
-  ${(props) => props.center? 'text-align: center;' : ''};
+  ${(props) => props.center ? 'text-align: center;' : ''};
+  max-width: 640px;
   `
 
 export default Grid
