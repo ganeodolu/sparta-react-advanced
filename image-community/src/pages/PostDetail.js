@@ -1,35 +1,39 @@
-import React from 'react'
-import { Button, Grid, Image, Text, TextArea } from "../elements";
-import Reply  from '../components/Reply';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import Post from "../components/Post";
+import { actionCreators as postActions } from "../redux/modules/post";
+import CommentList from "../components/CommentList";
+import CommentWrite from "../components/CommentWrite";
+import Permit from "../shared/Permit";
+
 const PostDetail = (props) => {
-  return (
-		<div>
-			<Grid>
-				<Grid is_flex>
-					<Image shape="circle" src={props.src}></Image>
-					<Text bold>{props.user_info.user_name}</Text>
-					<Text>{props.insert_dt}</Text>
-				</Grid>
-				<Grid padding="16px">
-					<Text>{props.contents}</Text>
-				</Grid>
-				<Grid>
-					<Image shape="rectangle" src={props.src} />
-				</Grid>
-				<Grid padding="16px">
-					<Text>댓글 {props.comment_cnt}개</Text>
-				</Grid>
-				<Grid is_flex>
-					<TextArea cols="50" rows="3">댓글 내용을 입력해주세요</TextArea>
-					<Button>작성</Button>
-				</Grid>
-				<Reply></Reply>
-				<Reply></Reply>
-				<Reply></Reply>
-			</Grid>
-		</div>
+	const dispatch = useDispatch();
+	const { postId } = useParams();
+	const userInfo = useSelector((state) => state.user.user);
+	const postList = useSelector((state) => state.post.list);
+	const postIdx = postList.findIndex(({ id }) => id === postId);
+	const post = postList[postIdx];
+
+	useEffect(() => {
+		if (post) {
+			return;
+		}
+		dispatch(postActions.getOnePostFB(postId));
+	}, [])
+
+	return (
+		<>
+			{post && ( // 새로고침시 오류 방지
+				<Post {...post} isMe={post.userInfo.userId === userInfo?.uid}></Post>
+			)}
+			<Permit>
+				<CommentWrite postId={postId} />
+			</Permit>
+			<CommentList postId={postId} />
+		</>
 	);
-}
+};
 
 PostDetail.defaultProps = {
 	user_info: {
@@ -44,4 +48,4 @@ PostDetail.defaultProps = {
 	insert_dt: "2022-06-02 18:00:00",
 };
 
-export default PostDetail
+export default PostDetail;

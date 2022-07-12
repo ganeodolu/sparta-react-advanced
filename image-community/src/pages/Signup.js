@@ -34,7 +34,7 @@ const Signup = (props) => {
 		if (!validation.email(state.id)) {
 			return false;
 		}
-		if (state.password !== state.passwordConfirm) {
+		if (!validation.isSameValue(state.password, state.passwordConfirm)) {
 			alert("비밀번호가 다릅니다");
 			return false;
 		}

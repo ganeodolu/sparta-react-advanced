@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { ReactComponent as WriteButton } from "../assets/writeButton.svg";
 
 const SvgImage = (props) => {
+	const { onClickButton } = props;
 	return (
 		<SvgWrapper>
-			<WriteButton />
+			<WriteButton onClick={onClickButton}/>
 		</SvgWrapper>
 	);
 };
