@@ -53,7 +53,7 @@ Post.defaultProps = {
 	imageUrl:
 		"http://www.chemicalnews.co.kr/news/photo/202106/3636_10174_4958.jpg",
 	contents: "괭이",
-	commentCnt: 10,
+	commentCnt: 0,
 	insertDt: "2022-06-02 18:00:00",
 };
 

@@ -29,7 +29,7 @@ const userInitial = {
 
 // middleware actions
 const logInFB = (id, pwd) => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		auth.setPersistence(firebase.auth.Auth.Persistence.SESSION).then((res) => {
 			auth
 				.signInWithEmailAndPassword(id, pwd)
@@ -55,7 +55,7 @@ const logInFB = (id, pwd) => {
 };
 
 const signUpFB = (id, pwd, userName) => {
-	return function (dispatch, setState, { history }) {
+	return function (dispatch, setState) {
 		auth
 			.createUserWithEmailAndPassword(id, pwd)
 			.then((user) => {
@@ -86,7 +86,7 @@ const signUpFB = (id, pwd, userName) => {
 };
 
 const logInCheckFB = () => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
 				console.log(user)
@@ -106,7 +106,7 @@ const logInCheckFB = () => {
 }
 
 const logOutFB = () => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		auth.signOut().then(() => {
 			dispatch(logOut());
 			// history.replace('/');

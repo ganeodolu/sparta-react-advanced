@@ -44,7 +44,7 @@ const initialPost = {
 };
 
 const addPostFB = (contents = "") => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		const postDB = firestore.collection("post");
 		const user = getState().user.user;
 		const userInfo = {
@@ -90,7 +90,7 @@ const addPostFB = (contents = "") => {
 };
 
 const updatePostFB = (postId, contents = "") => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		const postDB = firestore.collection("post").doc(postId);
 		const user = getState().user.user;
 		const userInfo = {
@@ -136,7 +136,7 @@ const updatePostFB = (postId, contents = "") => {
 };
 
 const getPostFB = (start = null, size = 3) => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		let _paging = getState().post.paging;
 		if (_paging.start && !_paging.next) {
 			return;
@@ -186,7 +186,7 @@ const getPostFB = (start = null, size = 3) => {
 };
 
 const getOnePostFB = (postId) => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		const postDB = firestore.collection("post");
 		postDB
 			.doc(postId)

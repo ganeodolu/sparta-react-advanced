@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import { createBrowserHistory } from "history";
 import { connectRouter } from "connected-react-router";
+import { configureStore } from "@reduxjs/toolkit";
 
 import User from "./modules/user";
 import Post from "./modules/post";
@@ -40,6 +41,16 @@ const composeEnhancers =
 // 미들웨어 엮기
 const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
-let store = (initialStore) => createStore(rootReducer, enhancer);
+// createStore 사용
+// let store = (initialStore) => createStore(rootReducer, enhancer);
+// configureStore 사용
+const store = () =>
+	configureStore({
+		reducer: rootReducer,
+		enhancer,
+		middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+			serializableCheck: false,
+		}),
+	});
 
 export default store();

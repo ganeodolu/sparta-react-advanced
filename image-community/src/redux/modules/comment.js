@@ -32,7 +32,7 @@ const initialState = {
 };
 
 const getCommentFB = (postId = null) => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		if (!postId) return;
 		const commnetDB = firestore.collection("comment");
 		commnetDB
@@ -54,7 +54,7 @@ const getCommentFB = (postId = null) => {
 };
 
 const addCommentFB = (postId, contents) => {
-	return function (dispatch, getState, { history }) {
+	return function (dispatch, getState) {
 		const commentDB = firestore.collection("comment");
 		const userInfo = getState().user.user;
 		const { uid, userName, userProfile } = userInfo;
