@@ -1,17 +1,17 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 
-const Spinner = (props) => {
+const Spinner = forwardRef((props, ref) => {
 	const { type, size, is_dim } = props;
 
 	return (
-		<React.Fragment>
+		<div ref={ref}>
 			<SpinnerWrap type={type} is_dim={is_dim}>
 				<SpinnerSvg size={size} />
 			</SpinnerWrap>
-		</React.Fragment>
+		</div>
 	);
-};
+});
 
 Spinner.defaultProps = {
 	type: "inline", // inline, page

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Post from "../components/Post";
 import { Grid } from "../elements";
 import { actionCreators as postActions } from "../redux/modules/post";
-import InfinityScroll from "../shared/InfinityScroll";
+import InfinityScrollIO from "../shared/InfinityScrollIO";
 
 const PostList = (props) => {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ const PostList = (props) => {
 	return (
 		<React.Fragment>
 			<Grid bg={"#EFF6FF"} padding="5px 0px">
-			<InfinityScroll
+			<InfinityScrollIO
 				callNext={() => {
 					dispatch(postActions.getPostFB(paging.next));
 				}}
@@ -60,7 +60,7 @@ const PostList = (props) => {
 						);
 					}
 				})}
-			</InfinityScroll>
+			</InfinityScrollIO>
 			</Grid>
 		</React.Fragment>
 	);
