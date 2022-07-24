@@ -13,6 +13,7 @@ dayjs.tz.setDefault("Asia/Seoul");
 
 const SET_COMMENT = "SET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
+const REMOVE_COMMENT = "REMOVE_COMMENT";
 const LOADING = "LOADING";
 
 const setComment = createAction(SET_COMMENT, (postId, commentList) => ({
@@ -23,6 +24,11 @@ const addComment = createAction(ADD_COMMENT, (postId, comment) => ({
 	postId,
 	comment,
 }));
+const removeComment = createAction(REMOVE_COMMENT, (postId, commentId, commentList) => ({
+	postId,
+	commentId,
+	commentList,
+}))
 
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
 
@@ -119,6 +125,38 @@ const addCommentFB = (postId, contents) => {
 	};
 };
 
+// db.collection("cities").doc("DC").delete().then(() => {
+//     console.log("Document successfully deleted!");
+// }).catch((error) => {
+//     console.error("Error removing document: ", error);
+// });
+
+const removeCommentFB = (postId, commentId) => {
+	return function (dispatch, getState) {
+		const commentDB = firestore.collection("comment");
+
+		commentDB.doc(commentId).delete().then(() => {
+			const postDB = firestore.collection("post");
+			const post = getState().post.list.find((list) => list.id === postId);
+			const increment = firebase.firestore.FieldValue.increment(-1);
+			postDB
+				.doc(postId)
+				.update({ commentCnt: increment })
+				.then((_post) => {
+					console.log(_post)
+					// dispatch(removeComment(postId, commentId, commentList))
+					if (post) {
+						dispatch(
+							postActions.updatePost(postId, {
+								commentCnt: parseInt(post.commentCnt) - 1,
+							})
+						);
+				}
+			})
+		})
+	}
+} 
+
 export default handleActions(
 	{
 		[SET_COMMENT]: (state, action) =>
@@ -128,6 +166,10 @@ export default handleActions(
 		[ADD_COMMENT]: (state, action) =>
 			produce(state, (draft) => {
 				draft.list[action.payload.postId].unshift(action.payload.comment);
+			}),
+		[REMOVE_COMMENT]: (state, action) => 
+			produce(state, (draft) => {
+				// draft.list[action.payload.postId]
 			}),
 		[LOADING]: (state, action) =>
 			produce(state, (draft) => {
@@ -142,6 +184,7 @@ const actionCreators = {
 	addComment,
 	getCommentFB,
 	addCommentFB,
+	removeCommentFB,
 };
 
 export { actionCreators };

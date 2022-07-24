@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Grid, Image, Text } from "../elements";
+import { Grid, Image, Text, Button } from "../elements";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as commentActions } from "../redux/modules/comment";
 
@@ -36,8 +36,13 @@ export default CommentList;
 
 
 const CommentItem = (props) => {
+  const dispatch = useDispatch();
+	const uid = useSelector((state) => state?.user?.user?.uid);
+  const { id: commentId, userProfile, userName, userId, postId, contents, insertDt } = props;
+  const onClickButton = () => {
+    dispatch(commentActions.removeCommentFB(postId, commentId))
+  }
 
-    const {userProfile, userName, userId, postId, contents, insertDt} = props;
     return (
         <Grid isFlex>
             <Grid isFlex width="auto">
@@ -47,7 +52,8 @@ const CommentItem = (props) => {
             <Grid isFlex margin="0px 4px">
                 <Text margin="0px">{contents}</Text>
                 <Text margin="0px">{insertDt}</Text>
-            </Grid>
+          </Grid>
+          {uid === userId && <Button width="10%" onClickButton={() => onClickButton()}>삭제</Button>}
         </Grid>
     )
 }
