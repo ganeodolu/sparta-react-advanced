@@ -20,7 +20,7 @@ const setPost = createAction(SET_POST, (postList, paging) => ({
 	paging,
 }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const updatePost = createAction(UPDATE_POST, (post) => ({ post }));
+const updatePost = createAction(UPDATE_POST, (postId, post) => ({ postId, post }));
 const loading = createAction(LOADING, (isLoading) => ({ isLoading }));
 
 const initialState = {
@@ -239,7 +239,7 @@ export default handleActions(
 			}),
 		[UPDATE_POST]: (state, action) =>
 			produce(state, (draft) => {
-				let idx = draft.list.findIndex((post) => post.id === action.payload.postId);
+				const idx = draft.list.findIndex((post) => post.id === action.payload.postId);
 				draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
 			}),
 		[LOADING]: (state, action) =>
