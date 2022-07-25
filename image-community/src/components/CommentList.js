@@ -21,7 +21,7 @@ const CommentList = (props) => {
 			<React.Fragment>
 				<Grid padding="16px">
 					{commentList[postId].map((comment) => {
-						return <CommentItem key={comment.id} {...comment} />;
+						return <CommentItem key={comment.id} commentList={commentList[postId]} {...comment} />;
 					})}
 				</Grid>
 			</React.Fragment>
@@ -38,9 +38,9 @@ export default CommentList;
 const CommentItem = (props) => {
   const dispatch = useDispatch();
 	const uid = useSelector((state) => state?.user?.user?.uid);
-  const { id: commentId, userProfile, userName, userId, postId, contents, insertDt } = props;
+  const { id: commentId, commentList, userProfile, userName, userId, postId, contents, insertDt } = props;
   const onClickButton = () => {
-    dispatch(commentActions.removeCommentFB(postId, commentId))
+    dispatch(commentActions.removeCommentFB(postId, commentId, commentList))
   }
 
     return (

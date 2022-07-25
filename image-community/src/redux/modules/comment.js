@@ -131,7 +131,7 @@ const addCommentFB = (postId, contents) => {
 //     console.error("Error removing document: ", error);
 // });
 
-const removeCommentFB = (postId, commentId) => {
+const removeCommentFB = (postId, commentId, commentList) => {
 	return function (dispatch, getState) {
 		const commentDB = firestore.collection("comment");
 
@@ -143,8 +143,7 @@ const removeCommentFB = (postId, commentId) => {
 				.doc(postId)
 				.update({ commentCnt: increment })
 				.then((_post) => {
-					console.log(_post)
-					// dispatch(removeComment(postId, commentId, commentList))
+					dispatch(removeComment(postId, commentId, commentList))
 					if (post) {
 						dispatch(
 							postActions.updatePost(postId, {
@@ -169,7 +168,8 @@ export default handleActions(
 			}),
 		[REMOVE_COMMENT]: (state, action) => 
 			produce(state, (draft) => {
-				// draft.list[action.payload.postId]
+				const nextCommentList = action.payload.commentList.filter((comment) => comment.id !== action.payload.commentId);
+				draft.list[action.payload.postId] = nextCommentList
 			}),
 		[LOADING]: (state, action) =>
 			produce(state, (draft) => {
